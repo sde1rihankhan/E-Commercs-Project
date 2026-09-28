@@ -12,9 +12,9 @@ const app = express()
 
 const PORT = process.env.PORT || 3000
 
-// app.get("/",(req,resp)=>{
-//         resp.send("servsr start")
-//     })
+app.get("/",(req,resp)=>{
+        resp.send("servsr start")
+    })
 app.use(express.json())
 app.use(cors({
     origin:"http://localhost:5173",
