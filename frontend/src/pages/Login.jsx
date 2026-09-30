@@ -49,12 +49,13 @@ const Login = () => {
         dispatch(setUser(resp.data.user));
         localStorage.setItem("accessToken", resp.data.accessToken);
         toast.success(resp.data.message);
-        // Server response na mile to bhi error message dikhayein.
-        toast.error(error.response?.data?.message || "Login failed");
+       toast.error(error.resp?.data?.message || "Login failed");
       }
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message);
+       // Server response na mile to bhi error message dikhayein.
+      toast.error(error.response?.data?.message || "Login failed");
     } finally {
       setLoading(false);
     }
