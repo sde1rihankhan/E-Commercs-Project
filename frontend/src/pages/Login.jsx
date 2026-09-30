@@ -27,7 +27,6 @@ const Login = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    console.log(formData);
 
     try {
       setLoading(true);
@@ -49,7 +48,6 @@ const Login = () => {
         dispatch(setUser(resp.data.user));
         localStorage.setItem("accessToken", resp.data.accessToken);
         toast.success(resp.data.message);
-       toast.error(error.resp?.data?.message || "Login failed");
       }
     } catch (error) {
       console.log(error);
