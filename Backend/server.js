@@ -16,10 +16,14 @@ app.get("/",(req,resp)=>{
         resp.send("servsr start")
     })
 app.use(express.json())
+// Deployed frontend ko backend API call karne ki permission dein.
 app.use(cors({
-    origin:"http://localhost:5173",
-    credentials:true
-}))
+    // Yahan frontend project ka URL dalein, backend ka nahi.
+    origin: "https://e-commercs-project-nbgp.vercel.app",
+    // Agar authentication cookies use hoti hain to credentials allow karein.
+    credentials: true,
+  }));
+  
 app.use("/api/user", userRoute)
 app.use("/api/product", productRoute)
 app.use("/api/cart", cartRoute)
