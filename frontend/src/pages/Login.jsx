@@ -32,7 +32,7 @@ const Login = () => {
     try {
       setLoading(true);
       // Deployed backend URL ko environment variable se lein.
-      const apiUrl = import.meta.env.VITE_API_URL;
+      const apiUrl = import.meta.env.VITE_URL;
 
       // Login request deployed backend ko bhejein.
       const resp = await axios.post(
