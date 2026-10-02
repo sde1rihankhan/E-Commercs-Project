@@ -5,7 +5,7 @@ import { singleUpload } from '../middleware/multer.js'
 
 const router = express.Router()
 
-router.post("/registor", register)
+router.post("/register", register)
 router.post("/verify", verify)
 router.post("/reverify", reverify)
 router.post("/login", login)
