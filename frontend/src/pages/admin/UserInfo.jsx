@@ -60,7 +60,7 @@ const UserInfo = () => {
         formData.append("file", file); //image file for backend multer
       }
       const resp = await axios.put(
-        `http://localhost:8000/api/user/update/${userId}`,
+        `${import.meta.env.VITE_URL}/api/user/update/${userId}`,
         formData,
         {
           headers: {
@@ -85,7 +85,7 @@ const UserInfo = () => {
   const getUserDetails = async () => {
     try {
       const resp = await axios.get(
-        `http://localhost:8000/api/user/get-user/${userId}`
+        `${import.meta.env.VITE_URL}/api/user/get-user/${userId}`
       );
       if (resp.data) {
         setUpdateUser(resp.data.user);

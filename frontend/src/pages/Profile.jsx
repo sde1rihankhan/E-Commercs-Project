@@ -80,7 +80,7 @@ const Profile = () => {
         formData.append("file", file); //image file for backend multer
       }
       const resp = await axios.put(
-        `http://localhost:8000/api/user/update/${userId}`,
+        `${import.meta.env.VITE_URL}/api/user/update/${userId}`,
         formData,
         {
           headers: {

@@ -20,7 +20,7 @@ const Cart = () => {
   const tex = subTotal * 0.05; //5%
   const total = subTotal + shipping + tex;
 
-  const API = "http://localhost:8000/api/cart";
+  const API = `${import.meta.env.VITE_URL}/api/cart`;
   const accessToken = localStorage.getItem("accessToken");
 
   const handleUpdateQuantity = async (productId, type) => {

@@ -12,7 +12,7 @@ const ProductDesc = ({product}) => {
   const addToCart = async (productId) => {
     try {
       const resp = await axios.post(
-        `http://localhost:8000/api/cart/add`,
+        `${import.meta.env.VITE_URL}/api/cart/add`,
         { productId },
         {
           headers: {

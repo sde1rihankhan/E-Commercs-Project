@@ -15,7 +15,9 @@ app.use(express.json());
 
 app.use(
   cors({
+   // Deployed frontend ko backend API call karne ki permission dein.
     origin: "https://e-commercs-project-nbgp.vercel.app",
+   // Agar authentication cookies use hoti hain to credentials allow karein.
     credentials: true,
   })
 );
@@ -33,11 +35,6 @@ app.use("/api/orders", orderRoute);
 await connectDB();
 
 export default app;
-
-
-
-
-
 
 // import express from "express";
 // import 'dotenv/config'

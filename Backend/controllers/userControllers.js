@@ -38,7 +38,7 @@ export const register = async (req, resp) => {
     newUser.token = token;
     await newUser.save();
     return resp.status(201).json({
-      message: "user Ragistered successfully",
+      message: "User Ragistered successfully",
       user: newUser,
     });
   } catch (error) {
