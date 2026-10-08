@@ -9,7 +9,7 @@ const VerifyEmail = () => {
 
    const verifyEmail = async() =>{
     try {
-        const resp = await axios.post(`${import.meta.env.VITE_URL}/api/user/verify/`, {},{
+        const resp = await axios.post(`${import.meta.env.VITE_URL}/api/user/verify`, {},{
             headers:{
                 Authorization:`Bearer ${token}`
             }
