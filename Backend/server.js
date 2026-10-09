@@ -15,7 +15,7 @@ app.use(express.json());
 
 
 app.use(cors({ // Browser ke cross-origin requests allow karta hai.
-  origin: "https://e-commers-project-nbgp.vercel.app", // Frontend ka exact origin allow karta hai.
+  origin: "https://e-commercs-project-nbgp.vercel.app", // Frontend ka exact origin allow karta hai.
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Preflight mein requested methods allow karta hai.
   allowedHeaders: ["Content-Type", "Authorization"], // Request headers allow karta hai.
 })); // CORS setup complete karta hai.
