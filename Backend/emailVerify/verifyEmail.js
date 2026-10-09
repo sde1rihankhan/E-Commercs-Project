@@ -1,5 +1,5 @@
-import nodemailer from 'nodemailer';
-import 'dotenv/config'
+// import nodemailer from 'nodemailer';
+// import 'dotenv/config'
 
 import nodemailer from "nodemailer"; // Email bhejne ke liye Nodemailer import karta hai.
 import "dotenv/config"; // Local environment variables load karta hai.
