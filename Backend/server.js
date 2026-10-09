@@ -13,21 +13,14 @@ const app = express();
 
 app.use(express.json());
 
-
-app.use(cors({ // Browser ke cross-origin requests allow karta hai.
-  origin: "https://e-commercs-project-nbgp.vercel.app", // Frontend ka exact origin allow karta hai.
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Preflight mein requested methods allow karta hai.
-  allowedHeaders: ["Content-Type", "Authorization"], // Request headers allow karta hai.
-})); // CORS setup complete karta hai.
-
-// app.use(
-//   cors({
-//    // Deployed frontend ko backend API call karne ki permission dein.
-//     origin: "https://e-commercs-project-nbgp.vercel.app",
-//    // Agar authentication cookies use hoti hain to credentials allow karein.
-//     credentials: true,
-//   })
-// );
+app.use(
+  cors({
+   // Deployed frontend ko backend API call karne ki permission dein.
+    origin: "https://e-commercs-project-nbgp.vercel.app",
+   // Agar authentication cookies use hoti hain to credentials allow karein.
+    credentials: true,
+  })
+);
 
 app.get("/", (req, res) => {
   res.send("server start");
