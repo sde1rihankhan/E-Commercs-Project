@@ -24,14 +24,43 @@ const ProductCard = ({ product, loading }) => {
           },
         }
       );
+
       if (resp.data) {
-        toast.success("Prodect added to Cart");
+        toast.success("Product added to cart successfully!");
         dispatch(setCart(resp.data.cart));
       }
     } catch (error) {
+      if (error.response?.status === 409) {
+        toast.info("Product is already in your cart!");
+      } else {
+        toast.error(
+          error.response?.data?.message || "Failed to add product to cart"
+        );
+      }
+
       console.error(error);
     }
   };
+
+  // const addToCart = async (productId) => {
+  //   try {
+  //     const resp = await axios.post(
+  //       `${import.meta.env.VITE_URL}/api/cart/add`,
+  //       { productId },
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${accessToken}`,
+  //         },
+  //       }
+  //     );
+  //     if (resp.data) {
+  //       toast.success("Prodect added to Cart");
+  //       dispatch(setCart(resp.data.cart));
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   return (
     <div className="shadow-lg rounded-lg overflow-hidden h-max">
@@ -40,7 +69,7 @@ const ProductCard = ({ product, loading }) => {
           <Skeleton className="h-full w-full rounded-lg" />
         ) : (
           <img
-            onClick={()=>navigate(`/product/${product._id}`)}
+            onClick={() => navigate(`/product/${product._id}`)}
             src={productImg[0]?.url}
             alt=""
             className="w-full h-full transition-transform duration-300 hover:scale-105"

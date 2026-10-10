@@ -63,26 +63,40 @@ export const addToCart = async (req, resp) => {
       const itemIndex = cart.items.findIndex(
         (item) => item.productId.toString() === productId
       );
+
       if (itemIndex > -1) {
-        //if product exists -> just increase quantity
-        cart.items[itemIndex].quantity += 1;
+        return resp.status(409).json({
+          message: "Product is already in your cart!",
+        });
       } else {
-        // if new product -> push to cart
-        // cart.items.push({
-        //   productId,
-        //   quantity: 1,
-        //   price: product.productPrice,
-        // });
         cart.items.push({
-          productId: product._id, // new product add karo
+          productId: product._id,
           quantity: 1,
-          price: product.productPrice || product.price, // required price save karo
+          price: product.productPrice || product.price,
         });
       }
 
+      // if (itemIndex > -1) {
+      //   //if product exists -> just increase quantity
+      //   cart.items[itemIndex].quantity += 1;
+      // } else {
+      //   // if new product -> push to cart
+      //   // cart.items.push({
+      //   //   productId,
+      //   //   quantity: 1,
+      //   //   price: product.productPrice,
+      //   // });
+      //   cart.items.push({
+      //     productId: product._id, // new product add karo
+      //     quantity: 1,
+      //     price: product.productPrice || product.price, // required price save karo
+      //   });
+      // }
+
       //Recalculate total price
       cart.totalPrice = cart.items.reduce(
-        (acc, item) => acc + item.price * item.quantity, 0
+        (acc, item) => acc + item.price * item.quantity,
+        0
       );
     }
 
@@ -90,13 +104,14 @@ export const addToCart = async (req, resp) => {
     await cart.save();
 
     //Populate product details before sending response
-    const populatedCart = await Cart.findById(cart._id).populate("items.productId");
+    const populatedCart = await Cart.findById(cart._id).populate(
+      "items.productId"
+    );
 
     return resp.status(200).json({
       message: "Product added to cart successfully",
       cart: populatedCart,
     });
-    
   } catch (error) {
     return resp.status(500).json({
       message: error.message,
@@ -179,7 +194,9 @@ export const removeFromCart = async (req, resp) => {
     await cart.save();
 
     // populated cart return kar raha hai
-    const updatedCart = await Cart.findOne({ userId }).populate("items.productId");
+    const updatedCart = await Cart.findOne({ userId }).populate(
+      "items.productId"
+    );
 
     // cart = await cart.populate("items.productId");
 
