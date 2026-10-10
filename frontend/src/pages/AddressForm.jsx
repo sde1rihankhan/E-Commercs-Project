@@ -28,6 +28,7 @@ const AddressForm = () => {
   const { cart, addresses, selectedAddress } = useSelector(
     (store) => store.product
   );
+  const selectedAddressData = addresses?.[selectedAddress];
   const [showForm, setShowForm] = useState(
     addresses?.length > 0 ? false : true
   );
@@ -41,9 +42,56 @@ const AddressForm = () => {
   };
 
   const handleSave = () => {
-    dispatch(addAddress(formData));
+    // Sabhi fields ko trim karo
+    const cleanedData = Object.fromEntries(
+      Object.entries(formData).map(([key, value]) => [key, value.trim()])
+    );
+
+    // Koi bhi field empty ho to save mat karo
+    const hasEmptyField = Object.values(cleanedData).some((value) => !value);
+
+    if (hasEmptyField) {
+      toast.error("Please fill in all address fields");
+      return;
+    }
+
+    // Same physical address pehle se saved hai ya nahi
+    const normalize = (value) => value.trim().toLowerCase();
+
+    const duplicateAddress = addresses.some((addr) =>
+      ["address", "city", "state", "zip", "country"].every(
+        (key) => normalize(addr[key] || "") === normalize(cleanedData[key])
+      )
+    );
+
+    if (duplicateAddress) {
+      toast.info("This address is already saved!");
+      return;
+    }
+
+    // Save address and automatically select it
+    dispatch(addAddress(cleanedData));
+    dispatch(setSelectedAddress(addresses.length));
+
+    setFormData({
+      fullName: "",
+      phone: "",
+      email: "",
+      address: "",
+      city: "",
+      state: "",
+      zip: "",
+      country: "",
+    });
+
     setShowForm(false);
+    toast.success("Address saved successfully!");
   };
+
+  // const handleSave = () => {
+  //   dispatch(addAddress(formData));
+  //   setShowForm(false);
+  // };
   //   console.log("addresses", addresses);
   // console.log("showForm", showForm);
   // console.log("store", useSelector((store) => store.product));
@@ -110,14 +158,13 @@ const AddressForm = () => {
             if (verifyResp.data.success) {
               // Redux cart empty karo
               dispatch(setCart({ items: [], totalPrice: 0 }));
-            
+
               // success notification
               toast.success("Payment Successful");
-            
+
               // redirect user
               navigate("/order-success");
-            }
-             else {
+            } else {
               toast.error("Payment verification failed"); // line 57: verify failed
             }
           } catch (error) {
@@ -157,10 +204,15 @@ const AddressForm = () => {
         },
 
         prefill: {
-          name: formData.fullName, // line 87: prefill name
-          email: formData.email, // line 88: prefill email
-          contact: formData.phone, // line 89: prefill phone
+          name: selectedAddressData?.fullName || "",
+          email: selectedAddressData?.email || "",
+          contact: selectedAddressData?.phone || "",
         },
+        // prefill: {
+        //   name: formData.fullName, // line 87: prefill name
+        //   email: formData.email, // line 88: prefill email
+        //   contact: formData.phone, // line 89: prefill phone
+        // },
 
         theme: { color: "#F472B6" }, // line 92: theme color
       };
@@ -327,7 +379,37 @@ const AddressForm = () => {
               {addresses.map((addr, index) => (
                 <div
                   key={index}
-                  onClick={() => setSelectedAddress(index)}
+                  onClick={() => dispatch(setSelectedAddress(index))}
+                  className={`border p-4 rounded-md cursor-pointer transition-colors ${
+                    selectedAddress === index
+                      ? "border-pink-600 bg-pink-50 ring-2 ring-pink-200"
+                      : "border-gray-300 hover:border-pink-300"
+                  }`}
+                >
+                  <p className="font-medium">{addr.fullName}</p>
+                  <p>{addr.phone}</p>
+                  <p>{addr.email}</p>
+                  <p>
+                    {addr.address}, {addr.city}, {addr.state},{addr.zip},{" "}
+                    {addr.country}
+                  </p>
+
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      dispatch(deleteAddress(index));
+                    }}
+                    className="mt-2 text-red-500 hover:text-red-700 text-sm"
+                  >
+                    Delete
+                  </button>
+                </div>
+              ))}
+              {/* {addresses.map((addr, index) => (
+                <div
+                  key={index}
+                  onClick={() => dispatch(setSelectedAddress(index))}
                   className={`border p-4 rounded-md cursor-pointer relative ${
                     selectedAddress === index
                       ? "border-pink-600 bg-pink-50"
@@ -348,7 +430,7 @@ const AddressForm = () => {
                     Delete
                   </button>
                 </div>
-              ))}
+              ))} */}
               <Button
                 variant="outline"
                 className="w-full"
@@ -358,7 +440,7 @@ const AddressForm = () => {
               </Button>
               <Button
                 onClick={handelPayment}
-                disabled={selectedAddress === null}
+                disabled={selectedAddress === null || !cart?.items?.length}
                 className="w-full bg-pink-600"
               >
                 Proceed To Checkout

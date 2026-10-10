@@ -28,16 +28,33 @@ const productSlice = createSlice({
     setSelectedAddress: (state, action) => {
       state.selectedAddress = action.payload;  // selected address set karo
     },
-    deleteAddress: (state, action) => {
-      state.addresses = state.addresses.filter(
-        (_, index) => index !== action.payload // jis index ko delete karna hai usko hata do
-      );
 
-      //Reset selectedAddress if it was deleted
-      if (state.selectedAddress === action.payload) {
-        state.selectedAddress = null; // agar selected wahi tha to reset kar do
+    deleteAddress: (state, action) => {
+      const deletedIndex = action.payload;
+    
+      state.addresses = state.addresses.filter(
+        (_, index) => index !== deletedIndex
+      );
+    
+      if (state.selectedAddress === deletedIndex) {
+        state.selectedAddress = null;
+      } else if (
+        state.selectedAddress !== null &&
+        state.selectedAddress > deletedIndex
+      ) {
+        state.selectedAddress -= 1;
       }
     },
+    // deleteAddress: (state, action) => {
+    //   state.addresses = state.addresses.filter(
+    //     (_, index) => index !== action.payload // jis index ko delete karna hai usko hata do
+    //   );
+
+    //   //Reset selectedAddress if it was deleted
+    //   if (state.selectedAddress === action.payload) {
+    //     state.selectedAddress = null; // agar selected wahi tha to reset kar do
+    //   }
+    // },
   },
 });
 
