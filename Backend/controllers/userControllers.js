@@ -1,7 +1,7 @@
 import { User } from "../models/userModels.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { verifyEmail } from "../emailVerify/verifyEmail.js";
+import verifyEmail  from "../emailVerify/verifyEmail.js";
 import { Session } from "../models/sessionModel.js";
 import { sendOTPMail } from "../emailVerify/sendOTPMail.js";
 import cloudinary from "../utils/cloudinary.js";
