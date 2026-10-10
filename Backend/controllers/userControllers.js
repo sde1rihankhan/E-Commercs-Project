@@ -32,9 +32,9 @@ export const register = async (req, resp) => {
       password: hashedPassword,
     });
     const token = jwt.sign({ id: newUser._id }, process.env.SECRET_KEY, {
-      expiresIn: "10m",
+      expiresIn: "24h",
     });
-    verifyEmail(token, email); // send Email here
+   await verifyEmail(token, email); // send Email here
     newUser.token = token;
     await newUser.save();
     return resp.status(201).json({
@@ -51,44 +51,95 @@ export const register = async (req, resp) => {
 export const verify = async (req, resp) => {
   try {
     const authHeader = req.headers.authorization;
+
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      resp.status(400).json({
-        message: "Authorization tokin is missing or invalid",
+      return resp.status(400).json({
+        message: "Authorization token is missing or invalid",
       });
     }
-    const token = authHeader.split(" ")[1]; // [0index => Bearer 1index => token => fwufhqerfbys]
+
+    const token = authHeader.split(" ")[1];
 
     let decoded;
+
     try {
       decoded = jwt.verify(token, process.env.SECRET_KEY);
     } catch (error) {
       if (error.name === "TokenExpiredError") {
         return resp.status(400).json({
-          message: "The ragistration token has expired",
+          message: "Registration token has expired. Please request a new verification email.",
         });
       }
+
       return resp.status(400).json({
         message: "Token verification failed",
       });
     }
+
     const user = await User.findById(decoded.id);
+
     if (!user) {
-      return resp.status(400).json({
-        message: "Token not found",
+      return resp.status(404).json({
+        message: "User not found",
       });
     }
+
     user.token = null;
     user.isVeryfide = true;
+
     await user.save();
+
     return resp.status(200).json({
       message: "Email verified successfully",
     });
   } catch (error) {
-    resp.status(500).json({
+    return resp.status(500).json({
       message: error.message,
     });
   }
 };
+
+// export const verify = async (req, resp) => {
+//   try {
+//     const authHeader = req.headers.authorization;
+//     if (!authHeader || !authHeader.startsWith("Bearer ")) {
+//       resp.status(400).json({
+//         message: "Authorization tokin is missing or invalid",
+//       });
+//     }
+//     const token = authHeader.split(" ")[1]; // [0index => Bearer 1index => token => fwufhqerfbys]
+
+//     let decoded;
+//     try {
+//       decoded = jwt.verify(token, process.env.SECRET_KEY);
+//     } catch (error) {
+//       if (error.name === "TokenExpiredError") {
+//         return resp.status(400).json({
+//           message: "The ragistration token has expired",
+//         });
+//       }
+//       return resp.status(400).json({
+//         message: "Token verification failed",
+//       });
+//     }
+//     const user = await User.findById(decoded.id);
+//     if (!user) {
+//       return resp.status(400).json({
+//         message: "Token not found",
+//       });
+//     }
+//     user.token = null;
+//     user.isVeryfide = true;
+//     await user.save();
+//     return resp.status(200).json({
+//       message: "Email verified successfully",
+//     });
+//   } catch (error) {
+//     resp.status(500).json({
+//       message: error.message,
+//     });
+//   }
+// };
 
 export const reverify = async (req, resp) => {
   try {
@@ -101,9 +152,9 @@ export const reverify = async (req, resp) => {
     }
 
     const token = jwt.sign({ id: user._id }, process.env.SECRET_KEY, {
-      expiresIn: "10m",
+      expiresIn: "24h",
     });
-    verifyEmail(token, email); // send Email here
+   await verifyEmail(token, email); // send Email here
 
     user.token = token;
     await user.save();

@@ -42,8 +42,12 @@ const Signup = () => {
         }
       );
       if (resp.data) {
-        navigate("/verify");
-        toast.success(resp.data.message);
+        if (resp.data) {
+          toast.success("Signup successful! Please check your email to verify your account.");
+          navigate("/verify");
+        }
+        // navigate("/verify");
+        // toast.success(resp.data.message);
       }
     } catch (error) {
       console.log(error);
