@@ -120,6 +120,7 @@ export const getMyOrder = async (req, resp) => {
   try {
     const userId = req.id;
     const orders = await Order.find({ user: userId })
+      .sort({ createdAt: -1 }) // Latest order first
       .populate({
         path: "products.productId",
         select: "productName productPrice productImg",
@@ -194,7 +195,7 @@ export const getSalesData = async (req, res) => {
     ]);
 
     const totalSales = totalSaleAgg[0]?.total || 0;
-    
+
     //Sales grouped by date (last 30 days)
 
     const thirtyDaysAgo = new Date();
