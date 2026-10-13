@@ -44,7 +44,7 @@ const AdminSales = () => {
 
   return ( 
     
-      <div className="pl-[350px] bg-gray-100 py-20 pr-20 mx-auto px-4">
+      <div>
         {loading ? (
         <div className="flex min-h-[60vh] flex-col items-center justify-center gap-3">
           <div className="h-12 w-12 animate-spin rounded-full border-4 border-gray-200 border-t-pink-600"></div>
@@ -61,6 +61,7 @@ const AdminSales = () => {
           </button>
         </div>
       ) : (
+        <div className="pl-[350px] bg-gray-100 py-20 pr-20 mx-auto px-4">
         <div className="p-6 grid gap-6 lg:grid-cols-4">
         {/* Stats Card */}
         <Card className='bg-pink-500 text-white shadow'>
@@ -108,8 +109,8 @@ const AdminSales = () => {
             </CardContent>
         </Card>
       </div>
+      </div>
       )}
-       
       </div>
   )
 };
