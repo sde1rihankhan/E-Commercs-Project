@@ -24,7 +24,6 @@ const Products = () => {
       const resp = await axios.get(
         `${import.meta.env.VITE_URL}/api/product/getallproduct`
       );
-      await new Promise((resolve) => setTimeout(resolve, 2000));
       if (resp.data) {
         setAllProduct(resp.data.products);
         // console.log(resp.data.products);
@@ -32,7 +31,7 @@ const Products = () => {
       }
     } catch (error) {
       console.log(error);
-      toast.error(error.response?.data?.message || "Failed to fetch products")
+      toast.error(error.response.data.message);
     } finally {
       setLoading(false);
     }
