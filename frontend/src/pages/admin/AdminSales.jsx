@@ -43,8 +43,7 @@ const AdminSales = () => {
   }, []);
 
   return ( 
-    
-      <div>
+      <>
         {loading ? (
         <div className="flex min-h-[60vh] flex-col items-center justify-center gap-3">
           <div className="h-12 w-12 animate-spin rounded-full border-4 border-gray-200 border-t-pink-600"></div>
@@ -111,7 +110,7 @@ const AdminSales = () => {
       </div>
       </div>
       )}
-      </div>
+      </>
   )
 };
 
