@@ -1,6 +1,5 @@
 import { ShoppingCart } from "lucide-react";
 import React, { useState } from "react";
-import { Skeleton } from "./ui/skeleton";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
