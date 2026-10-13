@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { setCart } from "@/redux/productSlice";
 
-const ProductCard = ({ product, loading }) => {
+const ProductCard = ({ product, loading, setLoading}) => {
   const { productImg, productPrice, productName } = product;
   const accessToken = localStorage.getItem("accessToken");
   const dispatch = useDispatch();
@@ -15,6 +15,7 @@ const ProductCard = ({ product, loading }) => {
 
   const addToCart = async (productId) => {
     try {
+      setLoading(true)
       const resp = await axios.post(
         `${import.meta.env.VITE_URL}/api/cart/add`,
         { productId },
@@ -39,6 +40,8 @@ const ProductCard = ({ product, loading }) => {
       }
 
       console.error(error);
+    }finally{
+      setLoading(false)
     }
   };
 

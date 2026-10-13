@@ -113,6 +113,7 @@ useEffect(() => {
                   key={product._id}
                   product={product}
                   loading={loading}
+                  setLoading={setLoading}
                 />
               );
             })}
