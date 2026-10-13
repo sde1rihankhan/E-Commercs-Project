@@ -118,10 +118,9 @@ const Products = () => {
 
                   {/* Product Details Skeleton */}
                   <div className="space-y-3 mt-3">
-                    <Skeleton className="w-full h-4" />
-                    <Skeleton className="w-3/4 h-4" />
-                    <Skeleton className="w-1/2 h-5" />
-                    <Skeleton className="w-full h-9 rounded-lg" />
+                    <Skeleton className="w-50 h-4" />
+                              <Skeleton className="w-25 h-4" />
+                              <Skeleton className="w-37 h-4" />
                   </div>
                 </div>
               ))
