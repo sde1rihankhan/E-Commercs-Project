@@ -86,13 +86,20 @@ const ProductCard = ({ product, loading }) => {
         <div className="px-2 space-y-1">
           <h1 className="font-semibold h-12 line-clamp-2">{productName}</h1>
           <h2 className="font-bold">₹{productPrice.toLocaleString("en-IN")}</h2>
-          <button
-            onClick={() => addToCart(product._id)}
-            className="bg-pink-600 mb-3 w-full text-white rounded-lg flex gap-2 justify-center p-1"
-          >
-            <ShoppingCart className="w-5" />
-            Add to Cart
-          </button>
+          {loading ? (
+            <div className="flex min-h-[60vh] flex-col items-center justify-center gap-3">
+              <div className="h-12 w-12 animate-spin rounded-full border-4 border-gray-200 border-t-pink-600"></div>
+              <p className="text-gray-600">Loading orders...</p>
+            </div>
+          ) : (
+            <button
+              onClick={() => addToCart(product._id)}
+              className="bg-pink-600 mb-3 w-full text-white rounded-lg flex gap-2 justify-center p-1"
+            >
+              <ShoppingCart className="w-5" />
+              Add to Cart
+            </button>
+          )}
         </div>
       )}
     </div>
