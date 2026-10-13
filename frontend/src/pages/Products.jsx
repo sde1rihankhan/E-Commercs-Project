@@ -79,7 +79,7 @@ const Products = () => {
   }, [search, category, brand, priceRange, shortOrder, allProduct, dispatch]);
 
   return (
-    <div className="pt-20 pm-20">
+    <div className="pt-20 pb-10">
       <div className="mx-20 flex gap-7">
         {/* sidebar */}
         <FilterSidebar
