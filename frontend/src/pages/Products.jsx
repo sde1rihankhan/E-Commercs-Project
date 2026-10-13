@@ -31,7 +31,7 @@ const Products = () => {
       }
     } catch (error) {
       console.log(error);
-      toast.error(error.response.data.message);
+      toast.error(error.response?.data?.message || "Failed to fetch products")
     } finally {
       setLoading(false);
     }
@@ -127,7 +127,7 @@ const Products = () => {
               ))
             ) : product.length > 0 ? (
               product.map((item) => (
-                <ProductCard key={item._id} product={item} />
+                <ProductCard key={item._id} produt={item} />
               ))
             ) : (
               <p className="col-span-full text-center text-gray-500 py-10">
