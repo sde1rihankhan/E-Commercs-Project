@@ -1,6 +1,7 @@
 import FilterSidebar from "@/components/FilterSidebar";
 import ProductCard from "@/components/ProductCard";
-import { Skeleton } from "./ui/skeleton";
+import { Skeleton } from "@/components/ui/skeleton";
+// import { Skeleton } from "./ui/skeleton";
 import { setProducts } from "@/redux/productSlice";
 import axios, { all } from "axios";
 import React, { useEffect, useState } from "react";
