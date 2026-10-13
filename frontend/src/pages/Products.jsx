@@ -24,6 +24,7 @@ const Products = () => {
       const resp = await axios.get(
         `${import.meta.env.VITE_URL}/api/product/getallproduct`
       );
+      await new Promise((resolve) => setTimeout(resolve, 2000));
       if (resp.data) {
         setAllProduct(resp.data.products);
         // console.log(resp.data.products);
@@ -127,7 +128,7 @@ const Products = () => {
               ))
             ) : product.length > 0 ? (
               product.map((item) => (
-                <ProductCard key={item._id} produt={itm} />
+                <ProductCard key={item._id} product={item} />
               ))
             ) : (
               <p className="col-span-full text-center text-gray-500 py-10">

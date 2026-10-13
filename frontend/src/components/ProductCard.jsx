@@ -6,7 +6,9 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { setCart } from "@/redux/productSlice";
 
-const ProductCard = ({ produc }) => {
+const ProductCard = ({ product }) => {
+  console.log(product);
+  
   const { productImg, productPrice, productName } = product;
 
   const [addingToCart, setAddingToCart] = useState(false);
