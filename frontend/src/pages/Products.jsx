@@ -127,7 +127,7 @@ const Products = () => {
               ))
             ) : product.length > 0 ? (
               product.map((item) => (
-                <ProductCard key={item._id} produt={item} />
+                <ProductCard key={item._id} produt={itm} />
               ))
             ) : (
               <p className="col-span-full text-center text-gray-500 py-10">
