@@ -81,17 +81,14 @@ const AdminUsers = () => {
           ))
         ) : filteredUser.length > 0 ? (
           filteredUser.map((user) => (
-            <div
-              key={user._id}
-              className="bg-pink-100 p-5 rounded-lg"
-            >
+            <div key={user._id} className="bg-pink-100 p-5 rounded-lg">
               <div className="flex items-center gap-2">
                 <img
                   src={user?.profilePic || UserLogo}
                   alt=""
                   className="rounded-full w-16 aspect-square object-cover border border-pink-600"
                 />
-    
+
                 <div className="min-w-0">
                   <h1 className="font-semibold">
                     {user.firstName} {user.lastName}
@@ -99,18 +96,16 @@ const AdminUsers = () => {
                   <h3 className="break-all">{user.email}</h3>
                 </div>
               </div>
-    
+
               <div className="flex flex-wrap gap-3 mt-3">
                 <Button
-                  onClick={() =>
-                    navigate(`/dashboard/users/${user._id}`)
-                  }
+                  onClick={() => navigate(`/dashboard/users/${user._id}`)}
                   variant="outline"
                 >
                   <Edit />
                   Edit
                 </Button>
-    
+
                 <Button
                   onClick={() =>
                     navigate(`/dashboard/users/orders/${user._id}`)
@@ -129,6 +124,7 @@ const AdminUsers = () => {
         )}
       </div>
     </div>
-    
-    );
-    };
+  );
+};
+
+export default AdminUsers;
