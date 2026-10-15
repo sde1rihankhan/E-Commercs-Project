@@ -1,6 +1,7 @@
 import { setCart } from "@/redux/productSlice";
 import { Button } from "@base-ui/react";
 import axios from "axios";
+import { ShoppingCart } from "lucide-react";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "sonner";
