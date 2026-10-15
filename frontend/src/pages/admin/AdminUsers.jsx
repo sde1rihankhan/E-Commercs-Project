@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import UserLogo from "../../assets/user.png";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const AdminUsers = () => {
   const [users, setUsers] = useState([]);
