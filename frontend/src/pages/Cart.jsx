@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import userLogo from "../assets/user.png";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -12,6 +12,7 @@ import { toast } from "sonner";
 const Cart = () => {
   const { cart } = useSelector((store) => store.product);
   console.log(cart);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -44,13 +45,14 @@ const Cart = () => {
 
   const handleRemove = async (productId) => {
     try {
+      setLoading(true);
       const resp = await axios.delete(`${API}/remove`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
         data: { productId },
       });
-      
+
       console.log(resp);
       if (resp.data) {
         dispatch(setCart(resp.data.cart));
@@ -58,6 +60,8 @@ const Cart = () => {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -119,10 +123,20 @@ const Cart = () => {
                     </p>
                     <p
                       onClick={() => handleRemove(product?.productId?._id)}
+                      disabled={loading}
                       className="flex text-red-500 items-center gap-1 cursor-pointer"
                     >
-                      <Trash2 className="w-4 h-4" />
-                      Remove
+                      {loading ? (
+                        <>
+                        <span className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                        Removing...
+                      </>
+                      ) : (
+                        <>
+                          <Trash2 className="w-4 h-4" />
+                          Remove
+                        </>
+                      )}
                     </p>
                   </div>
                 </Card>
@@ -159,7 +173,12 @@ const Cart = () => {
                       />
                       <Button variant="outline">Apply</Button>
                     </div>
-                    <Button onClick={()=>navigate('/address')} className="w-full bg-pink-600">PLACE ORDER</Button>
+                    <Button
+                      onClick={() => navigate("/address")}
+                      className="w-full bg-pink-600"
+                    >
+                      PLACE ORDER
+                    </Button>
                     <Button variant="outline" className="w-full bg-transparent">
                       <Link to="/product">Continue Shopping</Link>
                     </Button>
