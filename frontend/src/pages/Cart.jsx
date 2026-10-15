@@ -12,7 +12,7 @@ import { toast } from "sonner";
 const Cart = () => {
   const { cart } = useSelector((store) => store.product);
   console.log(cart);
-  const [loading, setLoading] = useState(false);
+  const [removingId, setRemovingId] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -45,7 +45,7 @@ const Cart = () => {
 
   const handleRemove = async (productId) => {
     try {
-      setLoading(true);
+      setRemovingId(productId);
       const resp = await axios.delete(`${API}/remove`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -61,7 +61,7 @@ const Cart = () => {
     } catch (error) {
       console.log(error);
     } finally {
-      setLoading(false);
+      setRemovingId(null);
     }
   };
 
@@ -121,23 +121,26 @@ const Cart = () => {
                     <p>
                       ₹{product?.productId?.productPrice * product?.quantity}
                     </p>
-                    <p
+                    <button
+                      type="button"
                       onClick={() => handleRemove(product?.productId?._id)}
-                      disabled={loading}
-                      className="flex text-red-500 items-center gap-1 cursor-pointer"
+                      disabled={removingId === product?.productId?._id}
+                      className="flex items-center gap-1 text-red-500 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
                     >
-                      {loading ? (
+                      {removingId === product?.productId?._id ? (
                         <>
-                        <span className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" />
-                        Removing...
-                      </>
+                          {" "}
+                          <span className="h-4 w-4 animate-spin rounded-full border-2 border-red-500 border-t-transparent" />
+                          Removing...
+                        </>
                       ) : (
                         <>
+                          {" "}
                           <Trash2 className="w-4 h-4" />
                           Remove
                         </>
-                      )}
-                    </p>
+                      )}{" "}
+                    </button>
                   </div>
                 </Card>
               ))}
