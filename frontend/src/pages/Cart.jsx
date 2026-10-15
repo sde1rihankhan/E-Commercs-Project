@@ -13,6 +13,7 @@ const Cart = () => {
   const { cart } = useSelector((store) => store.product);
   console.log(cart);
   const [removingId, setRemovingId] = useState(null);
+  const [updatingId, setUpdatingId] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -26,6 +27,7 @@ const Cart = () => {
 
   const handleUpdateQuantity = async (productId, type) => {
     try {
+      setUpdatingId(productId);
       const resp = await axios.put(
         `${API}/update`,
         { productId, type },
@@ -40,6 +42,8 @@ const Cart = () => {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setUpdatingId(null);
     }
   };
 
@@ -101,11 +105,18 @@ const Cart = () => {
                             "decrease"
                           )
                         }
+                        disabled={updatingId === product.productId._id}
                         variant="outline"
                       >
-                        -
+                        {updatingId === product.productId._id ? (
+                          <span className="h-4 w-4 animate-spin rounded-full border-2 border-pink-600 border-t-transparent" />
+                        ) : (
+                          "-"
+                        )}
                       </Button>
+
                       <p>{product.quantity}</p>
+
                       <Button
                         onClick={() =>
                           handleUpdateQuantity(
@@ -113,11 +124,17 @@ const Cart = () => {
                             "increase"
                           )
                         }
+                        disabled={updatingId === product.productId._id}
                         variant="outline"
                       >
-                        +
+                        {updatingId === product.productId._id ? (
+                          <span className="h-4 w-4 animate-spin rounded-full border-2 border-pink-600 border-t-transparent" />
+                        ) : (
+                          "+"
+                        )}
                       </Button>
                     </div>
+
                     <p>
                       ₹{product?.productId?.productPrice * product?.quantity}
                     </p>
