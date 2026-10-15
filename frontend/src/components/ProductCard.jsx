@@ -7,8 +7,6 @@ import { toast } from "sonner";
 import { setCart } from "@/redux/productSlice";
 
 const ProductCard = ({ product }) => {
-  console.log(product);
-  
   const { productImg, productPrice, productName } = product;
 
   const [addingToCart, setAddingToCart] = useState(false);

@@ -11,13 +11,13 @@ const AdminSales = () => {
     totalSales: 0,
     salesByDate: [],
   });
-  const [loading, setloading] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [error, setError] = useState("");
   
 
   const fetchStats = async () => {
     try {
-      setloading(true)
+      setLoading(true)
       setError("")
       const accessToken = localStorage.getItem("accessToken");
 
@@ -34,7 +34,7 @@ const AdminSales = () => {
       console.log(error);
       setError("Orders load nahi ho sake. Please try again.");
     }finally{
-      setloading(false)
+      setLoading(false)
     }
   };
 
